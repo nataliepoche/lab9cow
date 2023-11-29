@@ -4,6 +4,10 @@ from ice_dragon import IceDragon
 from file_cow import FileCow
 import os
 
+# This iteration of HeiferGenerator contains two useful functions:
+# get_cows() returns a list of Cows, Dragons, IceDragons
+# get_file_cows() returns a list of FileCows
+
 class HeiferGenerator:
 
 	cow_names = ['heifer', 'kitteh']
@@ -47,6 +51,7 @@ class HeiferGenerator:
 	cows = None
 	file_cows = None
 
+	@staticmethod
 	def get_cows():
 		if HeiferGenerator.cows is None:
 			HeiferGenerator.cows = [None]*(len(HeiferGenerator.cow_names) + len(HeiferGenerator.dragon_names))
@@ -54,7 +59,7 @@ class HeiferGenerator:
 			num_regular = len(HeiferGenerator.cow_names)
 			for index in range(num_regular):
 				HeiferGenerator.cows[index] = Cow(HeiferGenerator.cow_names[index])
-				HeiferGenerator.cows[index].image = HeiferGenerator.quote_lines + HeiferGenerator.cowImages[index]
+				HeiferGenerator.cows[index].set_image(HeiferGenerator.quote_lines + HeiferGenerator.cowImages[index])
 			
 			# add the dragons
 			for index in range(len(HeiferGenerator.dragon_names)):
@@ -65,18 +70,20 @@ class HeiferGenerator:
 			
 		return HeiferGenerator.cows
 	
+	@staticmethod
 	def filter(filename):
 		return filename.endswith('.cow')
 
+	@staticmethod
 	def get_file_cows():
 		if HeiferGenerator.file_cows is None:
 			HeiferGenerator.file_cows = []
 			# loop through 'cows/' directory, if it is a valid file then add it to the list
 			# from https://www.geeksforgeeks.org/how-to-iterate-over-files-in-directory-using-python/
-			for filename in os.listdir('.'):		# for outside zybooks, replace '.' with 'cows'
+			for filename in os.listdir('cows'):		# for zybooks, replace 'cows' with '.'
 				if HeiferGenerator.filter(filename):
-					# for outside zybooks, replace filename with os.path.join('cows', filename)
-					c = FileCow(filename[0:-4], filename)
+					# for zybooks, replace os.path.join('cows', filename) with filename
+					c = FileCow(filename[0:-4], os.path.join('cows', filename))
 					HeiferGenerator.file_cows.append(c)
 
 		return HeiferGenerator.file_cows

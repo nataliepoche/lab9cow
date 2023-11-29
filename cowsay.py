@@ -3,6 +3,7 @@ from heifer_generator import HeiferGenerator
 from cow import Cow
 from dragon import Dragon
 from ice_dragon import IceDragon
+from file_cow import FileCow
 
 def list_cows(cows): # displays available cows from a python list of cow object
     cow_list = [] # creates a list
@@ -38,6 +39,8 @@ if __name__ == "__main__":
                 print(Cow.get_image(cow)) # print the ice-dragon.image
         else:
             print(f"Could not find {sys.argv[2]} cow!")
+    elif sys.argv[1] == "-f":
+        pass
     else:
         message = " ".join(sys.argv[1::]) # stores the message
         print(message) # prints the message
