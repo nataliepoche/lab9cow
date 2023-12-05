@@ -1,4 +1,5 @@
 import sys
+import os
 from heifer_generator import HeiferGenerator
 from cow import Cow
 from dragon import Dragon
@@ -20,27 +21,47 @@ def find_cow(name, cows):
 
 if __name__ == "__main__":
     cows = HeiferGenerator.get_cows()
+    file_cows = HeiferGenerator.get_file_cows()
+    message = " ".join(sys.argv[3::])  # stores the message
+
     if sys.argv[1] == "-l": # excludes file name
         print(f"Cows available: {list_cows(cows)}") # call list_cows(cows)
+        print(f"File cows available: {list_cows(file_cows)}")
+
     elif sys.argv[1] == "-n":
-        cow = find_cow(sys.argv[2], cows) # Checks for cow match
-        message = " ".join(sys.argv[3::]) # stores the message
+
+        cow = find_cow(sys.argv[2], cows)  # Checks for cow match
+
         if cow:
+
             if sys.argv[2] == "dragon":
                 print(message)  # print the message starting from sys.argv[3]
                 print(Dragon.get_image(cow))  # print the dragon.image
                 Dragon.can_breathe_fire(cow) # checks if dragon can breathe fire
+
             elif sys.argv[2] == "ice-dragon":
                 print(message)  # print the message starting from sys.argv[3]
                 print(IceDragon.get_image(cow))  # print the cow.image
                 IceDragon.can_breathe_fire(cow) # checks if ice dragon can breathe fire
+
             else:
                 print(message) # print the message starting from sys.argv[3]
                 print(Cow.get_image(cow)) # print the ice-dragon.image
+
         else:
             print(f"Could not find {sys.argv[2]} cow!")
-    elif sys.argv[1] == "-f":
-        pass
+
+    elif sys.argv[1] == "-f": # prints message using specified file cow
+
+        cow = find_cow(sys.argv[2], file_cows)  # Checks for file cow match
+
+        if cow:
+            print(message) # prints the message
+            print(FileCow.get_image(cow)) # prints file cow image
+
+        else:
+            print(f"Could not find {sys.argv[2]} cow!")
+
     else:
         message = " ".join(sys.argv[1::]) # stores the message
         print(message) # prints the message
